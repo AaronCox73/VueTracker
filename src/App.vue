@@ -50,6 +50,14 @@ export default {
     this.ToDoItems.splice(index, 1);
   }
 }, 
+// deleteToDo(toDoId) {
+//   const itemIndex = this.ToDoItems.findIndex((item) => item.id === toDoId);
+//   this.ToDoItems.splice(itemIndex, 1);
+// },
+editToDo(item, newTitle) {
+  const toDoToEdit = this.ToDoItems.find(todo => todo.id === item._id);
+  toDoToEdit.title = newTitle;
+}
 }
 };
 
@@ -70,6 +78,9 @@ export default {
         :due-date="item.dueDate"
         :done ='item.done' 
         :id="item._id"
+        @checkbox-changed="updateDoneStatus(item._id)"
+        @item-deleted="deleteToDo(item._id)"
+        @item-edited="editToDo(item._id, $event)"
       >
      
       </ToDoItem>

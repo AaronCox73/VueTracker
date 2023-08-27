@@ -2,9 +2,13 @@
 import { ref } from 'vue'
 import { VueElement } from 'vue';
 import axios from 'axios'
-const API_URL='http://localhost:3000/'
+const API_URL='http://localhost:3000/';
+import ToDoItemEditForm from "./ToDoEditFom.vue";
 
 export default {
+  components: {
+    ToDoItemEditForm
+  },
     props: {
         title: {required: true, type: String},
         taskDetails: {required: true, type: String},
@@ -15,6 +19,7 @@ export default {
         return {
             // key:value
             isDone: this.done,
+            isEditing: false,
         }
     }, 
     computed: {
@@ -38,10 +43,18 @@ export default {
         }
     },
     methods: {
-   
+      toggleToItemEditForm() {
+      this.isEditing = true;
     },
-      
+    itemEdited(newTitle) {
+  this.$emit('item-edited', newTitle);
+  this.isEditing = false;
+},
+editCancelled() {
+  this.isEditing = false;
+}
   }
+}
 </script>
 
 <template>
@@ -61,8 +74,22 @@ export default {
     <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">
         {{ taskDetails }}
     </p>
-    <button>Edit</button>
   </div>
+
+  <div class="stack-small">
+    <to-do-item-edit-form :id="id" :label="title" @item-edited="itemEdited"
+  @edit-cancelled="editCancelled" v-if="isEditing"></to-do-item-edit-form>
+  <div v-else>
+    <div class="custom-checkbox">
+    </div>
+  </div>
+    <div class="btn-group">
+      <button type="button" class="btn" @click="toggleToItemEditForm">
+        Edit Title <span class="visually-hidden"></span>
+      </button>
+    </div>
+  </div>
+
   <div
     class="border-t-2 border-neutral-100 px-6 py-3 dark:border-neutral-600 dark:text-neutral-50">
  Finish this by: {{ formattedDueDate }}
