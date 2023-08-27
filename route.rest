@@ -1,0 +1,32 @@
+GET http://localhost:3000/todos
+
+###
+
+
+GET http://localhost:3000/todos/64ea76a5638e8a16e618624b
+
+
+### 
+
+POST http://localhost:3000/todos
+Content-Type: application/json
+
+{
+    "title": "Test",
+    "taskDetails": "Testing this right now",
+    "dueDate": "Date:"
+}
+
+###
+
+DELETE http://localhost:3000/todos/64ea76a3638e8a16e6186249
+
+
+###
+
+PATCH http://localhost:3000/todos/64eb984656676065aedc177a
+Content-Type: application/json
+
+{
+    "title": "Get 3 coffees!"
+}
