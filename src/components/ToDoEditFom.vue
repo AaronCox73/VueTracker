@@ -1,19 +1,20 @@
 <template>
   <form class="stack-small" @submit.prevent="onSubmit">
     <div>
-      <label class="edit-label">Edit</label>
       <input
-        :id="id"
+        :id="_id"
         type="text"
         autocomplete="off"
-        v-model.lazy.trim="newTitle" />
+        v-model="newTitle"
+        placeholder="New Title" 
+        class="text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
     </div>
     <div class="btn-group">
-      <button type="submit" class="btn btn__primary">
+      <button type="submit" class="">
         Save
       </button>
       <br>
-      <button type="button" class="btn" @click="onCancel">
+      <button type="button" class="" @click="onCancel">
         Cancel
       </button>
     </div>
@@ -23,26 +24,22 @@
 <script>
   export default {
     props: {
-      title: {
-        type: String,
-        required: true,
-      },
-      taskDetails: {
-        type: String,
-        required: true,
-      },
+        title: {required: true, type: String},
+        taskDetails: {required: true, type: String},
+        dueDate : {required: true, type: String},
+        _id: {required: true, type: String},  
     },
     data() {
       return {
         newTitle: this.title,
-        newTaskDetails: this.taskDetails
       };
     },
     methods: {
       onSubmit() {
         if (this.newTitle && this.newTitle !== this.title) {
-          this.$emit("item-edited", this.newTitle);
-        }
+        this.$emit("item-edited", this.newTitle); 
+    
+  }
       },
       onCancel() {
         this.$emit("edit-cancelled");
@@ -50,29 +47,3 @@
     },
   };
 </script>
-<style scoped>
-  .edit-label {
-    font-family: Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #0b0c0c;
-    display: block;
-    margin-bottom: 5px;
-  }
-  input {
-    display: inline-block;
-    margin-top: 0.4rem;
-    width: 100%;
-    min-height: 4.4rem;
-    padding: 0.4rem 0.8rem;
-    border: 2px solid #565656;
-  }
-  form {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-  form > * {
-    flex: 0 0 100%;
-  }
-</style>

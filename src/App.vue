@@ -3,6 +3,7 @@ import './assets/tailwind.css'
 import ToDoItem from './components/ToDoItem.vue';
 import { ref } from 'vue'
 import ToDoForm from './components/ToDoForm.vue';
+import ToDoItemEditForm from './components/ToDoEditFom.vue'
 import axios from 'axios'
 const API_URL='http://localhost:3000/'
 
@@ -11,8 +12,9 @@ export default {
   name: "app",
   components: {
     ToDoItem,
-    ToDoForm
-},
+    ToDoForm,
+    ToDoItemEditForm
+  },
   data() {
     return {
       ToDoItems: [],
@@ -34,13 +36,13 @@ export default {
       this.toDoTask = "";
       this.dueDate = "";
     },
-   async removeTodo(item) {
-  const index = this.ToDoItems.findIndex(todo => todo._id === item._id);
-  if (index !== -1) {
-    await axios.delete(API_URL + `todos/${item._id}`);
-    this.ToDoItems.splice(index, 1);
-  }
-}, 
+    async removeTodo(item) {
+      const index = this.ToDoItems.findIndex(todo => todo._id === item._id);
+       if (index !== -1) {
+        await axios.delete(API_URL + `todos/${item._id}`);
+      this.ToDoItems.splice(index, 1);
+    }
+  }, 
 //oppsed to writing this twice I should just put it into a function and call the function
    async finishedTodo(item) {
     alert("Congrats on finishing this TODO. PROUD OF YOU, CHAMP!")
@@ -48,18 +50,27 @@ export default {
   if (index !== -1) {
     await axios.delete(API_URL + `todos/${item._id}`);
     this.ToDoItems.splice(index, 1);
+    }
+  }, 
+
+  async editToDo(todoId, newTitle) {
+  
+   
+  const index = this.ToDoItems.findIndex(todo => todo._id === todoId);
+  if (index !== -1) {
+    try {
+      const response = await axios.patch(API_URL + `todos/${todoId}`, {
+        newTitle: newTitle
+      });
+      this.ToDoItems[index].title = newTitle;
+    } catch (error) {
+      console.error('Error editing todo:', error);
+      // Handle the error as needed (show an error message, etc.)
+    }
   }
-}, 
-// deleteToDo(toDoId) {
-//   const itemIndex = this.ToDoItems.findIndex((item) => item.id === toDoId);
-//   this.ToDoItems.splice(itemIndex, 1);
-// },
-editToDo(item, newTitle) {
-  const toDoToEdit = this.ToDoItems.find(todo => todo.id === item._id);
-  toDoToEdit.title = newTitle;
+}}
 }
-}
-};
+
 
 </script>
 
@@ -78,11 +89,8 @@ editToDo(item, newTitle) {
         :due-date="item.dueDate"
         :done ='item.done' 
         :id="item._id"
-        @checkbox-changed="updateDoneStatus(item._id)"
-        @item-deleted="deleteToDo(item._id)"
         @item-edited="editToDo(item._id, $event)"
       >
-     
       </ToDoItem>
       <div class="text-center mt-2">
       <button class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded mb-2" @click="removeTodo(item)">Delete TODO</button>
@@ -96,7 +104,3 @@ editToDo(item, newTitle) {
   
 </template>
 
-
-<style>
-
-</style>

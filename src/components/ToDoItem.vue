@@ -47,8 +47,8 @@ export default {
       this.isEditing = true;
     },
     itemEdited(newTitle) {
-  this.$emit('item-edited', newTitle);
-  this.isEditing = false;
+      this.$emit('item-edited', newTitle);
+      this.isEditing = false;
 },
 editCancelled() {
   this.isEditing = false;
@@ -76,14 +76,14 @@ editCancelled() {
     </p>
   </div>
 
-  <div class="stack-small">
+  <div class="">
     <to-do-item-edit-form :id="id" :label="title" @item-edited="itemEdited"
   @edit-cancelled="editCancelled" v-if="isEditing"></to-do-item-edit-form>
   <div v-else>
-    <div class="custom-checkbox">
+    <div class="">
     </div>
   </div>
-    <div class="btn-group">
+    <div class="">
       <button type="button" class="btn" @click="toggleToItemEditForm">
         Edit Title <span class="visually-hidden"></span>
       </button>

@@ -28,5 +28,5 @@ PATCH http://localhost:3000/todos/64eba93cbc8651d2da52a8b1
 Content-Type: application/json
 
 {
-    "title": "Get 3 coffees!"
+    "newTitle": "Get 100 dollars!"
 }

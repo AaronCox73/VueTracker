@@ -37,7 +37,7 @@ export default {
             this.$emit("todo-added", this.title, this.taskDetails, this.dueDate)
             this.title='';
             this.taskDetails = '';
-            console.log()
+        
             // FINDOUT! this below caused it to produce the taskdetails as a title, find out why
             // this.$emit("todo-added", this.taskDetails)
             

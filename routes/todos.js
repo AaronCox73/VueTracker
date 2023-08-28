@@ -34,8 +34,8 @@ router.post("/", async (req, res) => {
 
 //updating a todo
 router.patch("/:id", getTodo, async (req, res) => {
-  if (req.body.title != null) {
-    res.TODO.title = req.body.title;
+  if (req.body.newTitle != null) {
+    res.TODO.title = req.body.newTitle;
   }
   if (req.body.taskDetails != null) {
     res.TODO.taskDetails = req.body.taskDetails;
